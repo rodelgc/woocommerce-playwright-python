@@ -6,11 +6,8 @@ services:
     image: docker.io/bitnami/mariadb:10.11.11
     volumes:
       - "mariadb_data:/bitnami/mariadb"
-    environment:
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MARIADB_USER=bn_wordpress
-      - MARIADB_DATABASE=bitnami_wordpress
+    env_file:
+      - ./local.env
   wordpress:
     image: docker.io/bitnami/wordpress:6.7.2
     ports:
@@ -20,13 +17,8 @@ services:
       - "wordpress_data:/bitnami/wordpress"
     depends_on:
       - mariadb
-    environment:
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - ALLOW_EMPTY_PASSWORD=yes
-      - WORDPRESS_DATABASE_HOST=mariadb
-      - WORDPRESS_DATABASE_PORT_NUMBER=3306
-      - WORDPRESS_DATABASE_USER=bn_wordpress
-      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+    env_file:
+      - ./local.env
 volumes:
   mariadb_data:
     driver: local

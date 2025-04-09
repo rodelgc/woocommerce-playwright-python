@@ -3,12 +3,12 @@ name = "woocommerce-playwright-python"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
-    {name = "Rodel Calasagsag", email = "od.rodel.calasagsag@gmail.com"},
+    { name = "Rodel Calasagsag", email = "od.rodel.calasagsag@gmail.com" },
 ]
 dependencies = []
 requires-python = "==3.9.*"
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
 
 
 [tool.pdm]
@@ -17,9 +17,10 @@ distribution = false
 [tool.pdm.scripts]
 start = "docker-compose up -d"
 stop = "docker-compose down --volumes"
-restart = {composite = ["stop", "start"]}
+restart = { composite = ["stop", "start"] }
+test-install = "playwright install chromium"
+test-run = "pytest -v"
+test = { composite = ["test-install", "test-run"] }
 
 [dependency-groups]
-test = [
-    "pytest-playwright>=0.7.0",
-]
+test = ["pytest-playwright>=0.7.0"]
