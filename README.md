@@ -29,4 +29,4 @@ Make sure your local machine has the following dependencies installed:
 | Command       | Description                                         |
 | ------------- | --------------------------------------------------- |
 | `pdm stop`    | Stop the test environment including docker volumes. |
-| `pdm restart` | Do a clean restart the test environment.            |
+| `pdm restart` | Do a clean restart of the test environment.         |
