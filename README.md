@@ -22,7 +22,7 @@ Make sure your local machine has the following dependencies installed:
    ```bash
    pdm start
    ```
-1. Open `http://localhost:8080` to verify if the local WordPress site was successfully launched.
+1. Open `http://localhost:8080` to verify if the local WordPress site was successfully launched. To log in to WP Admin, use `user` and `bitnami` as username and password, respectively.
 
 ## Other useful commands
 
