@@ -12,7 +12,7 @@ Make sure your local machine has the following dependencies installed:
 
 1. Install project dependencies:
    ```bash
-   pdm sync
+   pdm install
    ```
 1. Activate Python virtualenv:
    ```bash
