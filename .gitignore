@@ -175,4 +175,4 @@ cython_debug/
 
 # Playwright
 test-results
-playwright/.auth
+playwright/.auth/*.state.json
