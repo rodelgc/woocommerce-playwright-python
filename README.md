@@ -20,13 +20,13 @@ Make sure your local machine has the following dependencies installed:
    ```
 1. Launch the local testing environment:
    ```bash
-   pdm start
+   pdm run start
    ```
 1. Open `http://localhost:8080` to verify if the local WordPress site was successfully launched. To log in to WP Admin, use `user` and `bitnami` as username and password, respectively.
 
 ## Other useful commands
 
-| Command       | Description                                         |
-| ------------- | --------------------------------------------------- |
-| `pdm stop`    | Stop the test environment including docker volumes. |
-| `pdm restart` | Do a clean restart of the test environment.         |
+| Command           | Description                                         |
+| ----------------- | --------------------------------------------------- |
+| `pdm run stop`    | Stop the test environment including docker volumes. |
+| `pdm run restart` | Do a clean restart of the test environment.         |

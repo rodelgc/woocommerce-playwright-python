@@ -3,13 +3,14 @@
 
 services:
   mariadb:
-    image: docker.io/bitnami/mariadb:10.11.11
+    image: docker.io/bitnami/mariadb:latest
     volumes:
       - "mariadb_data:/bitnami/mariadb"
     env_file:
       - ./local.env
+
   wordpress:
-    image: docker.io/bitnami/wordpress:6.7.2
+    image: docker.io/bitnami/wordpress:latest
     ports:
       - "8080:8080"
       - "8443:8443"
@@ -19,6 +20,7 @@ services:
       - mariadb
     env_file:
       - ./local.env
+
 volumes:
   mariadb_data:
     driver: local
