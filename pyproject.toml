@@ -14,10 +14,11 @@ license = { text = "MIT" }
 distribution = false
 
 [tool.pdm.scripts]
-start = "bash -c 'docker-compose up -d && bash ./store-setup.sh'"
+start = "bash -c 'docker-compose up -d && bash ./store-setup.sh && playwright install chromium'"
 stop = "docker-compose down --volumes"
 restart = { composite = ["stop", "start"] }
-test = "bash -c 'playwright install chromium && pytest -v'"
+test = "pytest -v"
+debug = "env PWDEBUG=1 pytest"
 
 [dependency-groups]
 test = ["pytest-playwright>=0.7.0", "python-dotenv>=1.1.0"]
