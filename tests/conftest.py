@@ -1,7 +1,7 @@
 import re
 import os
 import pytest
-from playwright.sync_api import Browser, expect, StorageState
+from playwright.sync_api import Browser, expect, StorageState, Playwright
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -54,6 +54,20 @@ def customer_storage_state(browser: Browser, base_url: str):
 
     # Teardown: close unauthenticated context
     context.close()
+
+
+@pytest.fixture(scope="session", autouse=True)
+def request_context(playwright: Playwright, base_url: str):
+    # Setup: create a request context
+    headers = {"Authorization": "Basic bWVyY2hhbnQ6cGFzc3dvcmQ="}
+    request_context = playwright.request.new_context(
+        base_url=base_url, extra_http_headers=headers
+    )
+
+    yield request_context
+
+    # Teardown: close the request context
+    request_context.dispose()
 
 
 @pytest.fixture(scope="function")
