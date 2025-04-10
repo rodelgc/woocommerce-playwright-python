@@ -17,9 +17,10 @@ def request_context(playwright: Playwright, base_url: str):
     auth_encoded = b64encode(
         f"{WORDPRESS_USERNAME}:{WORDPRESS_PASSWORD}".encode("utf-8")
     )
-    headers = {"Authorization": f"Basic {auth_encoded}"}
+    headers = {"Authorization": f"Basic {auth_encoded}", "accept": "application/json"}
     request_context = playwright.request.new_context(
-        base_url=base_url, extra_http_headers=headers
+        base_url=base_url,
+        extra_http_headers=headers,
     )
 
     yield request_context
