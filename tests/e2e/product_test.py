@@ -20,7 +20,7 @@ def page(page: Page):
 
 
 def test_product_simple(page: Page):
-    page.goto("http://localhost:8080/wp-admin/post-new.php?post_type=product")
+    page.goto("wp-admin/post-new.php?post_type=product")
     expect(page).to_have_title(re.compile("^Add new product"))
 
     page.get_by_label("Product name").fill(PRODUCT_TITLE)
@@ -28,5 +28,5 @@ def test_product_simple(page: Page):
     page.locator('[name="publish"]').click()
     expect(page.get_by_text("Product published.")).to_be_visible()
 
-    page.goto("http://localhost:8080/wp-admin/edit.php?post_type=product")
+    page.goto("wp-admin/edit.php?post_type=product")
     expect(page.get_by_role("link", name=PRODUCT_TITLE, exact=True)).to_be_visible()

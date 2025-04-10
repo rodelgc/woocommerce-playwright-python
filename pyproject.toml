@@ -19,6 +19,11 @@ stop = "docker-compose down --volumes"
 restart = { composite = ["stop", "start"] }
 test = "pytest -v"
 debug = "env PWDEBUG=1 pytest"
+trace = "playwright show-trace"
 
 [dependency-groups]
 test = ["pytest-playwright>=0.7.0", "python-dotenv>=1.1.0"]
+
+[tool.pytest.ini_options]
+addopts = "--browser chromium --base-url http://localhost:8080 --tracing retain-on-failure --video retain-on-failure --screenshot only-on-failure --full-page-screenshot"
+testpaths = ["tests"]

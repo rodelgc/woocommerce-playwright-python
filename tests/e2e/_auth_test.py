@@ -1,7 +1,7 @@
 import re
+import os
 from playwright.sync_api import Page, expect
 from dotenv import load_dotenv
-import os
 
 # Load environment variables
 load_dotenv("local.env")
@@ -12,7 +12,7 @@ WORDPRESS_CUSTOMER_PASSWORD = os.getenv("WORDPRESS_CUSTOMER_PASSWORD")
 
 
 def test_auth_merchant(page: Page):
-    page.goto("http://localhost:8080/wp-admin")
+    page.goto("wp-admin")
     expect(page).to_have_title(re.compile("^Log In"))
     page.get_by_label("Username or Email Address").fill(WORDPRESS_USERNAME)
     page.get_by_label("Password", exact=True).fill(WORDPRESS_PASSWORD)
@@ -24,7 +24,7 @@ def test_auth_merchant(page: Page):
 
 
 def test_auth_customer(page: Page):
-    page.goto("http://localhost:8080/my-account")
+    page.goto("my-account")
     page.get_by_label("Username or email address").fill(WORDPRESS_CUSTOMER_USERNAME)
     page.get_by_role("textbox", name="Password Required").fill(
         WORDPRESS_CUSTOMER_PASSWORD
