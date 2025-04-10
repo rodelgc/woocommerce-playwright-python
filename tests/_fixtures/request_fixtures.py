@@ -22,6 +22,9 @@ def request_context(playwright: Playwright, base_url: str):
         base_url=base_url,
         extra_http_headers=headers,
     )
+    response = request_context.get("wp-json/wc/v3/", data={"_fields": "namespace"})
+    assert response.ok
+    assert response.json()["namespace"] == "wc/v3"
 
     yield request_context
 
