@@ -9,3 +9,6 @@ from _fixtures.auth_fixtures import (
 from _fixtures.request_fixtures import (
     request_context,
 )
+from _fixtures.product_fixtures import (
+    product_simple,
+)
