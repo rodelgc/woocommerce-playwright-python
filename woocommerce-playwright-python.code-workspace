@@ -8,6 +8,10 @@
 		"[python]": {
 			"editor.defaultFormatter": "ms-python.black-formatter",
 			"editor.formatOnSave": true,
+			"editor.wrappingIndent": "indent"
+		},
+		"[yaml]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode",
 		},
 		"files.autoSave": "afterDelay",
 	}
