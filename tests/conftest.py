@@ -2,8 +2,7 @@
 # pylint: disable=unused-import
 
 from tests._fixtures.auth_fixtures import (
-    merchant_storage_state,
-    customer_storage_state,
+    session_context,
     merchant_page,
     customer_page,
 )
