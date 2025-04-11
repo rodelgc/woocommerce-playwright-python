@@ -7,7 +7,7 @@ from typing import Tuple
 import pytest
 from dotenv import load_dotenv
 
-from playwright.sync_api import Browser, StorageState, expect, BrowserContext
+from playwright.sync_api import Browser, StorageState, expect
 
 # Load environment variables
 load_dotenv("local.env")
