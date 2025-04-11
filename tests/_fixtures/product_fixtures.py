@@ -12,6 +12,7 @@ def product_simple(request_context: APIRequestContext):
     yield product_simple
 
     if product_simple["id"]:
-        request_context.delete(
-            f"wp-json/wc/v3/products/{product_simple['id']}", params={"force": True}
+        response = request_context.delete(
+            f"wp-json/wc/v3/products/{product_simple['id']}", data={"force": True}
         )
+        assert response.ok
