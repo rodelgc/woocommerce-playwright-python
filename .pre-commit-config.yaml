@@ -1,0 +1,20 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 23.9.1
+    hooks:
+      - id: black
+        args: ["."]
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+
+  - repo: local
+    hooks:
+      - id: lint-and-format
+        name: Lint and Format
+        entry: bash -c "pdm run format && pdm run lint"
+        language: system
+        stages: [commit, push] # Run on both pre-commit and pre-push

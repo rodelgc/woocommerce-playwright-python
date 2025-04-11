@@ -4,4 +4,7 @@
         "editor.formatOnSave": true,
         "editor.wrappingIndent": "indent"
     },
+    "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+    }
 }

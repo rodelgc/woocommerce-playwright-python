@@ -9,7 +9,6 @@ from tests._models.merchant.products.all_products.all_products_table import (
 
 
 class AllProductsPage:
-
     def __init__(self, page: Page):
         self.page = page
         self.table = AllProductsTable(page)

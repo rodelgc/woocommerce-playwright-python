@@ -14,8 +14,9 @@ license = { text = "MIT" }
 test = [
     "pytest-playwright>=0.7.0",
     "python-dotenv>=1.1.0",
-    "pytest-pylint>=0.21.0",
     "black>=25.1.0",
+    "pre-commit>=4.2.0",
+    "pylint>=3.3.6",
 ]
 
 [tool.pytest.ini_options]
@@ -32,5 +33,6 @@ restart = { composite = ["stop", "start"] }
 test = "pytest -v"
 debug = "env PWDEBUG=1 pytest"
 trace = "playwright show-trace"
-lint = "py.test --pylint"
+lint = "pylint tests"
 format = "black ."
+pre-commit = "pre-commit run --all-files"
