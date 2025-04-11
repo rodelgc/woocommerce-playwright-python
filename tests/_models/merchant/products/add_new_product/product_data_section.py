@@ -1,3 +1,5 @@
+# pylint: disable=too-few-public-methods
+
 from playwright.sync_api import Page
 
 

@@ -7,12 +7,12 @@ from playwright.sync_api import APIRequestContext
 def product_simple(request_context: APIRequestContext):
     title = f"Simple Product {random.randint(100000, 999999)}"
     price = "19.99"
-    product_simple = {"title": title, "price": price, "id": None}
+    product = {"title": title, "price": price, "id": None}
 
-    yield product_simple
+    yield product
 
-    if product_simple["id"]:
+    if product["id"]:
         response = request_context.delete(
-            f"wp-json/wc/v3/products/{product_simple['id']}", data={"force": True}
+            f"wp-json/wc/v3/products/{product['id']}", data={"force": True}
         )
         assert response.ok

@@ -1,6 +1,11 @@
+# pylint: disable=too-few-public-methods
+
+
 import re
 from playwright.sync_api import Page, expect
-from .all_products_table import AllProductsTable
+from tests._models.merchant.products.all_products.all_products_table import (
+    AllProductsTable,
+)
 
 
 class AllProductsPage:

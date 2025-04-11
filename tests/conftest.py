@@ -1,14 +1,15 @@
 # flake8: noqa: F401
+# pylint: disable=unused-import
 
-from _fixtures.auth_fixtures import (
+from tests._fixtures.auth_fixtures import (
     merchant_storage_state,
     customer_storage_state,
     merchant_page,
     customer_page,
 )
-from _fixtures.request_fixtures import (
+from tests._fixtures.request_fixtures import (
     request_context,
 )
-from _fixtures.product_fixtures import (
+from tests._fixtures.product_fixtures import (
     product_simple,
 )

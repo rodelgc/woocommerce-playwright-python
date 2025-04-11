@@ -1,3 +1,6 @@
+# pylint: disable=too-few-public-methods
+
+
 from typing import Dict
 from playwright.sync_api import Page, expect
 

@@ -1,9 +1,12 @@
-import re
+# pylint: disable=redefined-outer-name
+
 import os
+import re
+
 import pytest
-from playwright.sync_api import Browser, expect, StorageState
 from dotenv import load_dotenv
 
+from playwright.sync_api import Browser, StorageState, expect
 
 # Load environment variables
 load_dotenv("local.env")
@@ -24,11 +27,9 @@ def merchant_storage_state(browser: Browser, base_url: str):
     page.get_by_label("Password", exact=True).fill(WORDPRESS_PASSWORD)
     page.get_by_role("button", name="Log In").click()
     expect(page.get_by_role("menuitem", name="Howdy")).to_be_visible()
-    merchant_storage_state = context.storage_state(
-        path="playwright/.auth/merchant.state.json"
-    )
+    storage_state = context.storage_state(path="playwright/.auth/merchant.state.json")
 
-    yield merchant_storage_state
+    yield storage_state
 
     # Teardown: close unauthenticated context
     context.close()
@@ -47,11 +48,9 @@ def customer_storage_state(browser: Browser, base_url: str):
     page.get_by_role("button", name="Log in").click()
     expect(page.get_by_role("heading", name="My account")).to_be_visible()
     expect(page.get_by_text(f"Hello {WORDPRESS_CUSTOMER_USERNAME}")).to_be_visible()
-    customer_storage_state = context.storage_state(
-        path="playwright/.auth/customer.state.json"
-    )
+    storage_state = context.storage_state(path="playwright/.auth/customer.state.json")
 
-    yield customer_storage_state
+    yield storage_state
 
     # Teardown: close unauthenticated context
     context.close()
@@ -66,9 +65,9 @@ def merchant_page(
         base_url=base_url,
         storage_state=merchant_storage_state,
     )
-    merchant_page = merchant_context.new_page()
+    page = merchant_context.new_page()
 
-    yield merchant_page
+    yield page
 
     # Teardown: close authenticated context
     merchant_context.close()
@@ -83,9 +82,9 @@ def customer_page(
         base_url=base_url,
         storage_state=customer_storage_state,
     )
-    customer_page = customer_context.new_page()
+    page = customer_context.new_page()
 
-    yield customer_page
+    yield page
 
     # Teardown: close authenticated context
     customer_context.close()

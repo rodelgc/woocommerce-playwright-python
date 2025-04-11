@@ -1,7 +1,11 @@
 import re
+from urllib.parse import parse_qs, urlparse
+
 from playwright.sync_api import Page, expect
-from .product_data_section import ProductDataSection
-from urllib.parse import urlparse, parse_qs
+
+from tests._models.merchant.products.add_new_product.product_data_section import (
+    ProductDataSection,
+)
 
 
 class AddNewProductPage:
@@ -31,5 +35,5 @@ class AddNewProductPage:
 
     def extract_product_id_from_url(self) -> str:
         params = parse_qs(urlparse(self.page.url).query)
-        id = params.get("post", [None])[0]
-        return id
+        product_id = params.get("post", [None])[0]
+        return product_id

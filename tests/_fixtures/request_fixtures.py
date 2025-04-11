@@ -1,9 +1,10 @@
 import os
-import pytest
-from playwright.sync_api import Playwright
-from dotenv import load_dotenv
 from base64 import b64encode
 
+import pytest
+from dotenv import load_dotenv
+
+from playwright.sync_api import Playwright
 
 # Load environment variables
 load_dotenv("local.env")
@@ -21,15 +22,15 @@ def request_context(playwright: Playwright, base_url: str):
         "Authorization": f"Basic {auth_encoded}",
         "accept": "application/json",
     }
-    request_context = playwright.request.new_context(
+    api_context = playwright.request.new_context(
         base_url=base_url,
         extra_http_headers=headers,
     )
-    response = request_context.get("wp-json/wc/v3/", data={"_fields": "namespace"})
+    response = api_context.get("wp-json/wc/v3/", data={"_fields": "namespace"})
     assert response.ok
     assert response.json()["namespace"] == "wc/v3"
 
-    yield request_context
+    yield api_context
 
     # Teardown: close the request context
-    request_context.dispose()
+    api_context.dispose()

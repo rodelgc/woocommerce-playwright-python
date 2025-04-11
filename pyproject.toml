@@ -10,6 +10,18 @@ requires-python = "==3.13.*"
 readme = "README.md"
 license = { text = "MIT" }
 
+[dependency-groups]
+test = [
+    "pytest-playwright>=0.7.0",
+    "python-dotenv>=1.1.0",
+    "pytest-pylint>=0.21.0",
+    "black>=25.1.0",
+]
+
+[tool.pytest.ini_options]
+addopts = "--browser chromium --base-url http://localhost:8080 --tracing retain-on-failure --video retain-on-failure --screenshot only-on-failure --full-page-screenshot"
+testpaths = ["tests"]
+
 [tool.pdm]
 distribution = false
 
@@ -20,10 +32,5 @@ restart = { composite = ["stop", "start"] }
 test = "pytest -v"
 debug = "env PWDEBUG=1 pytest"
 trace = "playwright show-trace"
-
-[dependency-groups]
-test = ["pytest-playwright>=0.7.0", "python-dotenv>=1.1.0"]
-
-[tool.pytest.ini_options]
-addopts = "--browser chromium --base-url http://localhost:8080 --tracing retain-on-failure --video retain-on-failure --screenshot only-on-failure --full-page-screenshot"
-testpaths = ["tests"]
+lint = "py.test --pylint"
+format = "black ."

@@ -1,9 +1,13 @@
 from typing import Dict
+
 from playwright.sync_api import Page
-from _models.merchant.products.add_new_product.add_new_product_page import (
+
+from tests._models.merchant.products.add_new_product.add_new_product_page import (
     AddNewProductPage,
 )
-from _models.merchant.products.all_products.all_products_page import AllProductsPage
+from tests._models.merchant.products.all_products.all_products_page import (
+    AllProductsPage,
+)
 
 
 def test_can_add_new_product__simple(
