@@ -34,7 +34,6 @@ def test_can_add_new_product__simple(
 
     # View product from customer side.
     product_url = all_products_page.table.get_product_url(product_simple["id"])
-    print(f"Product URL: {product_url}")
     customer_page.goto(product_url)
     expect(
         customer_page.get_by_text(product_simple["title"], exact=True)
