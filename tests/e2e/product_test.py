@@ -11,7 +11,7 @@ from tests._models.merchant.products.all_products.all_products_page import (
 
 
 def test_can_add_new_product__simple(
-    merchant_page: Page, product_simple: Dict[str, str | None]
+    merchant_page: Page, product_simple: Dict[str, any]
 ):
     add_new_product_page = AddNewProductPage(merchant_page)
     all_products_page = AllProductsPage(merchant_page)
@@ -20,6 +20,11 @@ def test_can_add_new_product__simple(
     add_new_product_page.goto()
     add_new_product_page.fill_product_name(product_simple["title"])
     add_new_product_page.product_data.fill_regular_price(product_simple["price"])
+    add_new_product_page.product_data.goto_inventory_tab()
+    add_new_product_page.product_data.fill_sku(product_simple["sku"])
+    add_new_product_page.product_data.check_stock_management()
+    add_new_product_page.product_data.fill_stock_quantity(product_simple["stock"])
+    add_new_product_page.fill_product_tags(product_simple["tags"])
     add_new_product_page.publish()
     product_simple["id"] = add_new_product_page.extract_product_id_from_url()
 

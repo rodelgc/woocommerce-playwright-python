@@ -37,3 +37,10 @@ class AddNewProductPage:
         params = parse_qs(urlparse(self.page.url).query)
         product_id = params.get("post", [None])[0]
         return product_id
+
+    def fill_product_tags(self, tags: list[str]) -> None:
+        for tag in tags:
+            tag_input = self.page.get_by_role("combobox", name="Add new tag")
+            tag_input.fill(tag)
+            tag_input.press("Enter")
+            expect(self.page.get_by_text(f"Remove term: {tag}")).to_be_visible()

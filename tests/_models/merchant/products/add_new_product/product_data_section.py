@@ -1,5 +1,3 @@
-# pylint: disable=too-few-public-methods
-
 from playwright.sync_api import Page
 
 
@@ -9,7 +7,30 @@ class ProductDataSection:
     def __init__(self, page: Page):
         self.page = page
 
+    # General tab
     def fill_regular_price(self, regular_price: str) -> None:
         regular_price_input = self.page.get_by_label("Regular price ($)")
-
         regular_price_input.fill(regular_price)
+
+    # Inventory tab
+    def goto_inventory_tab(self) -> None:
+        inventory_tab = self.page.get_by_role("link", name="Inventory")
+        inventory_tab.click()
+
+    def fill_sku(self, sku: str) -> None:
+        sku_input = self.page.get_by_role("textbox", name="SKU")
+        sku_input.fill(sku)
+
+    def check_stock_management(self) -> None:
+        stock_management_checkbox = self.page.get_by_role(
+            "checkbox", name="Stock management"
+        )
+        stock_management_checkbox.check()
+
+    def check_stock_status_in_stock(self) -> None:
+        in_stock_checkbox = self.page.get_by_role("radio", name="In stock")
+        in_stock_checkbox.check()
+
+    def fill_stock_quantity(self, stock: str) -> None:
+        stock_quantity_input = self.page.get_by_role("spinbutton", name="Quantity")
+        stock_quantity_input.fill(stock)

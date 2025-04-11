@@ -7,7 +7,17 @@ from playwright.sync_api import APIRequestContext
 def product_simple(request_context: APIRequestContext):
     title = f"Simple Product {random.randint(100000, 999999)}"
     price = "19.99"
-    product = {"title": title, "price": price, "id": None}
+    sku = f"sku-{random.randint(1000, 9999)}"
+    tags = [f"tag-{random.randint(1000, 9999)}", f"tag-{random.randint(1000, 9999)}"]
+    stock = "10"
+    product = {
+        "title": title,
+        "price": price,
+        "id": None,
+        "sku": sku,
+        "tags": tags,
+        "stock": stock,
+    }
 
     yield product
 
