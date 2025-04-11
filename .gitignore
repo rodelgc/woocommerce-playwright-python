@@ -174,5 +174,5 @@ cython_debug/
 .pypirc
 
 # Playwright
-test-results
+**/test-results/*.zip
 playwright/.auth/*.state.json

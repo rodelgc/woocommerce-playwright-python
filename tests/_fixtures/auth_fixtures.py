@@ -5,6 +5,7 @@ import re
 from typing import Tuple
 
 import pytest
+from pytest import FixtureRequest
 from dotenv import load_dotenv
 
 from playwright.sync_api import Browser, StorageState, expect
@@ -19,6 +20,11 @@ WORDPRESS_CUSTOMER_PASSWORD = os.getenv("WORDPRESS_CUSTOMER_PASSWORD")
 
 def set_up_merchant_storage_state(browser: Browser, base_url: str) -> StorageState:
     context = browser.new_context(base_url=base_url)
+    context.tracing.start(
+        screenshots=True,
+        snapshots=True,
+        sources=True,
+    )
     page = context.new_page()
     page.goto("wp-admin")
     expect(page).to_have_title(re.compile("^Log In"))
@@ -27,12 +33,20 @@ def set_up_merchant_storage_state(browser: Browser, base_url: str) -> StorageSta
     page.get_by_role("button", name="Log In").click()
     expect(page.get_by_role("menuitem", name="Howdy")).to_be_visible()
     storage_state = context.storage_state(path="playwright/.auth/merchant.state.json")
+    context.tracing.stop(
+        path="playwright/test-results/_auth__set_up_merchant_storage_state.trace.zip",
+    )
     context.close()
     return storage_state
 
 
 def set_up_customer_storage_state(browser: Browser, base_url: str) -> StorageState:
     context = browser.new_context(base_url=base_url)
+    context.tracing.start(
+        screenshots=True,
+        snapshots=True,
+        sources=True,
+    )
     page = context.new_page()
     page.goto("my-account")
     page.get_by_label("Username or email address").fill(WORDPRESS_CUSTOMER_USERNAME)
@@ -43,51 +57,98 @@ def set_up_customer_storage_state(browser: Browser, base_url: str) -> StorageSta
     expect(page.get_by_role("heading", name="My account")).to_be_visible()
     expect(page.get_by_text(f"Hello {WORDPRESS_CUSTOMER_USERNAME}")).to_be_visible()
     storage_state = context.storage_state(path="playwright/.auth/customer.state.json")
+    context.tracing.stop(
+        path="playwright/test-results/_auth__set_up_customer_storage_state.trace.zip",
+    )
     context.close()
     return storage_state
 
 
+def set_trace_path(suffix: str, request: FixtureRequest) -> str:
+    module_name = request.module.__name__
+    test_name = request.node.name
+    trace_path = (
+        f"playwright/test-results/{module_name}__{test_name}__{suffix}.trace.zip"
+    )
+    return trace_path
+
+
 @pytest.fixture(autouse=True, scope="session")
 def session_context(browser: Browser, base_url: str):
+    context = browser.new_context(base_url=base_url)
+    context.tracing.start(
+        screenshots=True,
+        snapshots=True,
+        sources=True,
+    )
     merchant_storage_state = set_up_merchant_storage_state(browser, base_url)
     customer_storage_state = set_up_customer_storage_state(browser, base_url)
 
     yield merchant_storage_state, customer_storage_state
 
+    context.tracing.stop(
+        path="playwright/test-results/_auth__session_context.trace.zip",
+    )
+    context.close()
+
 
 @pytest.fixture(scope="function")
 def merchant_page(
-    session_context: Tuple[StorageState, StorageState], browser: Browser, base_url: str
+    session_context: Tuple[StorageState, StorageState],
+    browser: Browser,
+    base_url: str,
+    request: FixtureRequest,
 ):
     merchant_storage_state, _ = session_context
+    trace_path = set_trace_path("merchant_context", request)
 
     # Set up authenticated merchant context
     merchant_context = browser.new_context(
         base_url=base_url,
         storage_state=merchant_storage_state,
     )
+    merchant_context.tracing.start(
+        screenshots=True,
+        snapshots=True,
+        sources=True,
+    )
     page = merchant_context.new_page()
 
     yield page
 
     # Teardown: close authenticated context
+    merchant_context.tracing.stop(
+        path=trace_path,
+    )
     merchant_context.close()
 
 
 @pytest.fixture(scope="function")
 def customer_page(
-    session_context: Tuple[StorageState, StorageState], browser: Browser, base_url: str
+    session_context: Tuple[StorageState, StorageState],
+    browser: Browser,
+    base_url: str,
+    request: FixtureRequest,
 ):
     _, customer_storage_state = session_context
+    trace_path = set_trace_path("customer_context", request)
 
     # Setup: create authenticated customer context
     customer_context = browser.new_context(
         base_url=base_url,
         storage_state=customer_storage_state,
     )
+    customer_context.tracing.start(
+        screenshots=True,
+        snapshots=True,
+        sources=True,
+    )
     page = customer_context.new_page()
 
     yield page
 
     # Teardown: close authenticated context
+    customer_context.tracing.stop(
+        path=trace_path,
+    )
     customer_context.close()
