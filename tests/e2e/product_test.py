@@ -17,7 +17,7 @@ def test_can_add_new_product__simple(
     expect(merchant_page).to_have_title(re.compile("^Add new product"))
     merchant_page.get_by_label("Product name").fill(product_simple["title"])
     merchant_page.get_by_label("Regular price ($)").fill(product_simple["price"])
-    merchant_page.locator('[name="publish"]').click()
+    merchant_page.get_by_role("button", name="Publish", exact=True).click()
     expect(merchant_page.get_by_text("Product published.")).to_be_visible()
     product_simple["id"] = extract_product_id(merchant_page.url)
 
