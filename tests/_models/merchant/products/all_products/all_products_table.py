@@ -30,3 +30,12 @@ class AllProductsTable:
 
         for tag in product["tags"]:
             expect(row).to_contain_text(tag)
+
+    def get_product_url(self, product: Dict[str, any]) -> str:
+        """
+        Get the product URL from the "View" link of the product row.
+        """
+        row = self.page.locator(f"#post-{product['id']}")
+        row.hover()
+        view_link = row.get_by_role("link", name="View")
+        return view_link.get_attribute("href")

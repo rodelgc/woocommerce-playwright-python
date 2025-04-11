@@ -27,6 +27,7 @@ def merchant_storage_state(browser: Browser, base_url: str):
     page.get_by_label("Password", exact=True).fill(WORDPRESS_PASSWORD)
     page.get_by_role("button", name="Log In").click()
     expect(page.get_by_role("menuitem", name="Howdy")).to_be_visible()
+    page.close()
     storage_state = context.storage_state(path="playwright/.auth/merchant.state.json")
 
     yield storage_state
@@ -48,6 +49,7 @@ def customer_storage_state(browser: Browser, base_url: str):
     page.get_by_role("button", name="Log in").click()
     expect(page.get_by_role("heading", name="My account")).to_be_visible()
     expect(page.get_by_text(f"Hello {WORDPRESS_CUSTOMER_USERNAME}")).to_be_visible()
+    page.close()
     storage_state = context.storage_state(path="playwright/.auth/customer.state.json")
 
     yield storage_state
