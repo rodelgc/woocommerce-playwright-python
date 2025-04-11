@@ -10,6 +10,9 @@ from tests._fixtures.auth_fixtures import (
 from tests._fixtures.request_fixtures import (
     request_context,
 )
+from tests._fixtures.cleanup_fixtures import (
+    cleanup_store,
+)
 from tests._fixtures.product_fixtures import (
     product_simple,
 )
