@@ -3,11 +3,6 @@ import pytest
 from playwright.sync_api import APIRequestContext
 
 
-def random_title() -> str:
-    """Generate a random title for the product."""
-    return f"Book {random.randint(100000, 999999)}"
-
-
 def random_price() -> str:
     """Generate a random price for the product."""
     return f"{random.randint(100, 999)}.{random.randint(00, 99)}"
@@ -42,7 +37,7 @@ def cleanup_product(product_id: int | None, request_context: APIRequestContext):
 @pytest.fixture(scope="function")
 def product_simple(request_context: APIRequestContext):
     """Fixture to create a simple product for testing."""
-    title = random_title()
+    title = "Pride and Prejudice"
     price = random_price()
     sku = random_sku()
     tags = random_tags(3)
@@ -64,25 +59,22 @@ def product_simple(request_context: APIRequestContext):
 @pytest.fixture(scope="function")
 def product_variable(request_context: APIRequestContext):
     """Fixture to create a variable product for testing."""
-    title = random_title()
-    product = {
-        "title": title,
-        "id": None,
-        "attributes": [
-            {
-                "name": "Format",
-                "values": "Hardcover | Paperback | eBook",
-            },
-            {
-                "name": "Language",
-                "values": "English | Spanish | French",
-            },
-            {
-                "name": "Edition",
-                "values": "First Edition | Revised Edition",
-            },
-        ],
-    }
+    title = "The Chronicles of Narnia"
+    attributes = [
+        {
+            "name": "Format",
+            "values": "Hardcover | Paperback | eBook",
+        },
+        {
+            "name": "Language",
+            "values": "English | Spanish | French",
+        },
+        {
+            "name": "Edition",
+            "values": "First Edition | Revised Edition",
+        },
+    ]
+    product = {"title": title, "id": None, "attributes": attributes}
 
     yield product
 
