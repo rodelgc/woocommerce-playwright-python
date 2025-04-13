@@ -3,6 +3,7 @@
 import os
 import re
 from typing import Tuple
+from datetime import datetime
 
 import pytest
 from pytest import FixtureRequest
@@ -16,6 +17,16 @@ WORDPRESS_USERNAME = os.getenv("WORDPRESS_USERNAME")
 WORDPRESS_PASSWORD = os.getenv("WORDPRESS_PASSWORD")
 WORDPRESS_CUSTOMER_USERNAME = os.getenv("WORDPRESS_CUSTOMER_USERNAME")
 WORDPRESS_CUSTOMER_PASSWORD = os.getenv("WORDPRESS_CUSTOMER_PASSWORD")
+
+# Set paths
+TEST_RESULTS_DIR = "playwright/test-results"
+TRACES_HOME = f"{TEST_RESULTS_DIR}/{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+AUTH_DIR = "playwright/.auth"
+
+
+def set_up_traces_home() -> None:
+    if not os.path.exists(TRACES_HOME):
+        os.makedirs(TRACES_HOME)
 
 
 def set_up_merchant_storage_state(browser: Browser, base_url: str) -> StorageState:
@@ -32,9 +43,9 @@ def set_up_merchant_storage_state(browser: Browser, base_url: str) -> StorageSta
     page.get_by_label("Password", exact=True).fill(WORDPRESS_PASSWORD)
     page.get_by_role("button", name="Log In").click()
     expect(page.get_by_role("menuitem", name="Howdy")).to_be_visible()
-    storage_state = context.storage_state(path="playwright/.auth/merchant.state.json")
+    storage_state = context.storage_state(path=f"{AUTH_DIR}/merchant.state.json")
     context.tracing.stop(
-        path="playwright/test-results/_auth__set_up_merchant_storage_state.trace.zip",
+        path=f"{TRACES_HOME}/_auth__set_up_merchant_storage_state.trace.zip",
     )
     context.close()
     return storage_state
@@ -56,9 +67,9 @@ def set_up_customer_storage_state(browser: Browser, base_url: str) -> StorageSta
     page.get_by_role("button", name="Log in").click()
     expect(page.get_by_role("heading", name="My account")).to_be_visible()
     expect(page.get_by_text(f"Hello {WORDPRESS_CUSTOMER_USERNAME}")).to_be_visible()
-    storage_state = context.storage_state(path="playwright/.auth/customer.state.json")
+    storage_state = context.storage_state(path=f"{AUTH_DIR}/customer.state.json")
     context.tracing.stop(
-        path="playwright/test-results/_auth__set_up_customer_storage_state.trace.zip",
+        path=f"{TRACES_HOME}/_auth__set_up_customer_storage_state.trace.zip",
     )
     context.close()
     return storage_state
@@ -67,14 +78,13 @@ def set_up_customer_storage_state(browser: Browser, base_url: str) -> StorageSta
 def set_trace_path(suffix: str, request: FixtureRequest) -> str:
     module_name = request.module.__name__
     test_name = request.node.name
-    trace_path = (
-        f"playwright/test-results/{module_name}__{test_name}__{suffix}.trace.zip"
-    )
+    trace_path = f"{TRACES_HOME}/{module_name}__{test_name}__{suffix}.trace.zip"
     return trace_path
 
 
 @pytest.fixture(autouse=True, scope="session")
 def session_context(browser: Browser, base_url: str):
+    set_up_traces_home()
     merchant_storage_state = set_up_merchant_storage_state(browser, base_url)
     customer_storage_state = set_up_customer_storage_state(browser, base_url)
 
