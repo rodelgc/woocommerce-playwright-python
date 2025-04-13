@@ -61,8 +61,6 @@ def test_can_add_new_product__variable(
             attribute_name=attribute["name"],
             attribute_values=attribute["values"],
         )
-        expect(
-            add_new_product_page.product_data.attributes_tab.saved_attribute_with_name(
-                "Format"
-            )
-        ).to_be_visible()
+        assert add_new_product_page.product_data.attributes_tab.is_attribute_saved(
+            attribute
+        )
