@@ -75,21 +75,10 @@ def set_trace_path(suffix: str, request: FixtureRequest) -> str:
 
 @pytest.fixture(autouse=True, scope="session")
 def session_context(browser: Browser, base_url: str):
-    context = browser.new_context(base_url=base_url)
-    context.tracing.start(
-        screenshots=True,
-        snapshots=True,
-        sources=True,
-    )
     merchant_storage_state = set_up_merchant_storage_state(browser, base_url)
     customer_storage_state = set_up_customer_storage_state(browser, base_url)
 
     yield merchant_storage_state, customer_storage_state
-
-    context.tracing.stop(
-        path="playwright/test-results/_auth__session_context.trace.zip",
-    )
-    context.close()
 
 
 @pytest.fixture(scope="function")
