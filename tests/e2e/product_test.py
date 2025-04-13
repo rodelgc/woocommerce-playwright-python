@@ -43,11 +43,9 @@ def test_can_add_new_product__simple(
 
 def test_can_add_new_product__variable(
     merchant_page: Page,
-    # customer_page: Page,
     product_variable: Dict[str, any],
 ):
     add_new_product_page = AddNewProductPage(merchant_page)
-    # all_products_page = AllProductsPage(merchant_page)
 
     # Add new product.
     add_new_product_page.goto()
