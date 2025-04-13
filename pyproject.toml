@@ -31,7 +31,7 @@ start = "bash -c 'docker-compose up -d && bash ./store-setup.sh && playwright in
 stop = "docker-compose down --volumes"
 restart = { composite = ["stop", "start"] }
 test = "pytest -v"
-test-headed = "pytest -v --headed --slowmo 500"
+test-headed = "pytest -v --headed"
 debug = "env PWDEBUG=1 pytest"
 trace = "playwright show-trace"
 codegen = "playwright codegen http://localhost:8080"
