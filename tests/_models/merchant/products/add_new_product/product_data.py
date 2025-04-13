@@ -1,11 +1,21 @@
+from tests._models.merchant.products.add_new_product.product_data_attributes import (
+    AttributesTab,
+)
+
 from playwright.sync_api import Page
 
 
-class ProductDataSection:
+class ProductData:
     """Page object for the Add new product page > Product Data section in WooCommerce."""
 
     def __init__(self, page: Page):
-        self.page = page
+        self.page = page.locator("#woocommerce-product-data")
+        self.product_type_select = self.page.get_by_label("Simple product Grouped")
+        self.attributes_tab = AttributesTab(self.page)
+
+    # Product type select
+    def select_product_type_variable(self) -> None:
+        self.product_type_select.select_option(label="Variable product")
 
     # General tab
     def fill_regular_price(self, regular_price: str) -> None:
@@ -34,3 +44,8 @@ class ProductDataSection:
     def fill_stock_quantity(self, stock: str) -> None:
         stock_quantity_input = self.page.get_by_role("spinbutton", name="Quantity")
         stock_quantity_input.fill(stock)
+
+    # Atrributes tab
+    def goto_attributes_tab(self) -> None:
+        inventory_tab = self.page.get_by_role("link", name="Attributes")
+        inventory_tab.click()
