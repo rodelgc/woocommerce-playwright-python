@@ -34,6 +34,7 @@ class AddNewProductPage:
         expect(publish_success_message).to_be_visible()
 
     def extract_product_id_from_url(self) -> str:
+        expect(self.page).to_have_url(re.compile(r"^.*post=\d+"))
         params = parse_qs(urlparse(self.page.url).query)
         product_id = params.get("post", [None])[0]
         return product_id
