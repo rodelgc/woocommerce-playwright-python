@@ -48,9 +48,10 @@ class ProductData:
         stock_quantity_input = self.page.get_by_role("spinbutton", name="Quantity")
         stock_quantity_input.fill(stock)
 
-    def goto_attributes_tab(self) -> None:
+    def goto_attributes_tab(self) -> AttributesTab:
         inventory_tab = self.page.get_by_role("link", name="Attributes")
         inventory_tab.click()
+        return AttributesTab(self.page)
 
     def goto_variations_tab(self) -> VariationsTab:
         inventory_tab = self.page.get_by_role("link", name="Variations")
