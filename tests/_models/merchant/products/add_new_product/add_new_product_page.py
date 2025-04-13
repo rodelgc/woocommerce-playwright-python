@@ -13,7 +13,7 @@ class AddNewProductPage:
 
     def __init__(self, page: Page):
         self.page = page
-        self.product_data = ProductData(page)
+        self.product_data_section = ProductData(page)
 
     def goto(self) -> None:
         path = "wp-admin/post-new.php?post_type=product"

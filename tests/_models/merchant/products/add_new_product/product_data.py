@@ -1,3 +1,4 @@
+from tests._models.merchant.block_overlay import BlockOverlay
 from tests._models.merchant.products.add_new_product.product_data_attributes import (
     AttributesTab,
 )
@@ -15,6 +16,7 @@ class ProductData:
         self.page = page.locator("#woocommerce-product-data")
         self.product_type_select = self.page.get_by_label("Simple product Grouped")
         self.attributes_tab = AttributesTab(self.page)
+        self.block_overlay = BlockOverlay(self.page)
 
     # Product type select
     def select_product_type_variable(self) -> None:
@@ -49,11 +51,14 @@ class ProductData:
         stock_quantity_input.fill(stock)
 
     def goto_attributes_tab(self) -> AttributesTab:
-        inventory_tab = self.page.get_by_role("link", name="Attributes")
-        inventory_tab.click()
+        attributes_tab = self.page.get_by_role("link", name="Attributes")
+        attributes_tab.click()
+        self.block_overlay.wait_until_gone()
+
         return AttributesTab(self.page)
 
     def goto_variations_tab(self) -> VariationsTab:
-        inventory_tab = self.page.get_by_role("link", name="Variations")
-        inventory_tab.click()
+        variations_tab = self.page.get_by_role("link", name="Variations")
+        variations_tab.click()
+        self.block_overlay.wait_until_gone()
         return VariationsTab(self.page)
