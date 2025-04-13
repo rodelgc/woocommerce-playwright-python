@@ -61,6 +61,8 @@ def test_can_add_new_product__variable(
             attribute_name=attribute["name"],
             attribute_values=attribute["values"],
         )
-        assert add_new_product_page.product_data.attributes_tab.is_attribute_saved(
-            attribute
-        )
+        expect(
+            add_new_product_page.product_data.attributes_tab.get_saved_attribute_heading(
+                attribute_name=attribute["name"]
+            )
+        ).to_be_visible()
