@@ -39,3 +39,37 @@ def test_can_add_new_product__simple(
         customer_page.get_by_text(product_simple["title"], exact=True)
     ).to_be_visible()
     expect(customer_page.get_by_text(product_simple["price"])).to_be_visible()
+
+
+def test_can_add_new_product__variable(
+    merchant_page: Page,
+    # customer_page: Page,
+    product_variable: Dict[str, any],
+):
+    add_new_product_page = AddNewProductPage(merchant_page)
+    # all_products_page = AllProductsPage(merchant_page)
+
+    # Add new product.
+    add_new_product_page.goto()
+    add_new_product_page.fill_product_name(product_variable["title"])
+    add_new_product_page.product_data.select_product_type_variable()
+    add_new_product_page.product_data.goto_attributes_tab()
+
+    # Add attributes.
+    for attribute in product_variable["attributes"]:
+        add_new_product_page.product_data.attributes_tab.add_new_attribute_using_form(
+            attribute_name=attribute["name"],
+            attribute_values=attribute["values"],
+        )
+        expect(
+            add_new_product_page.product_data.attributes_tab.get_saved_attribute_heading(
+                attribute_name=attribute["name"]
+            )
+        ).to_be_visible()
+
+    # Generate variations.
+    variations_tab = add_new_product_page.product_data.goto_variations_tab()
+    variations_tab.generate_variations()
+    expect(variations_tab.count_variations()).to_have_count(
+        len(product_variable["variations"])
+    )

@@ -1,5 +1,3 @@
-# pylint: disable=redefined-outer-name
-
 import os
 import re
 from typing import Tuple

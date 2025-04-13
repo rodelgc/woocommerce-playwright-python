@@ -3,8 +3,8 @@ from urllib.parse import parse_qs, urlparse
 
 from playwright.sync_api import Page, expect
 
-from tests._models.merchant.products.add_new_product.product_data_section import (
-    ProductDataSection,
+from tests._models.merchant.products.add_new_product.product_data import (
+    ProductData,
 )
 
 
@@ -13,7 +13,7 @@ class AddNewProductPage:
 
     def __init__(self, page: Page):
         self.page = page
-        self.product_data = ProductDataSection(page)
+        self.product_data = ProductData(page)
 
     def goto(self) -> None:
         path = "wp-admin/post-new.php?post_type=product"
