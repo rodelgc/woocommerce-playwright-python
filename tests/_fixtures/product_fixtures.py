@@ -63,18 +63,25 @@ def product_variable(request_context: APIRequestContext):
     attributes = [
         {
             "name": "Format",
-            "values": "Hardcover | Paperback | eBook",
+            "values": "Hardcover | Paperback",
         },
         {
             "name": "Language",
-            "values": "English | Spanish | French",
-        },
-        {
-            "name": "Edition",
-            "values": "First Edition | Revised Edition",
+            "values": "English | Spanish",
         },
     ]
-    product = {"title": title, "id": None, "attributes": attributes}
+    variations = [
+        ["Hardcover", "English"],
+        ["Hardcover", "Spanish"],
+        ["Paperback", "English"],
+        ["Paperback", "Spanish"],
+    ]
+    product = {
+        "title": title,
+        "id": None,
+        "attributes": attributes,
+        "variations": variations,
+    }
 
     yield product
 

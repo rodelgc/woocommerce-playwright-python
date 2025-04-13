@@ -66,3 +66,10 @@ def test_can_add_new_product__variable(
                 attribute_name=attribute["name"]
             )
         ).to_be_visible()
+
+    # Generate variations.
+    variations_tab = add_new_product_page.product_data.goto_variations_tab()
+    variations_tab.generate_variations()
+    expect(variations_tab.count_variations()).to_have_count(
+        len(product_variable["variations"])
+    )

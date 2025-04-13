@@ -1,6 +1,9 @@
 from tests._models.merchant.products.add_new_product.product_data_attributes import (
     AttributesTab,
 )
+from tests._models.merchant.products.add_new_product.product_data_variations import (
+    VariationsTab,
+)
 
 from playwright.sync_api import Page
 
@@ -45,7 +48,11 @@ class ProductData:
         stock_quantity_input = self.page.get_by_role("spinbutton", name="Quantity")
         stock_quantity_input.fill(stock)
 
-    # Atrributes tab
     def goto_attributes_tab(self) -> None:
         inventory_tab = self.page.get_by_role("link", name="Attributes")
         inventory_tab.click()
+
+    def goto_variations_tab(self) -> VariationsTab:
+        inventory_tab = self.page.get_by_role("link", name="Variations")
+        inventory_tab.click()
+        return VariationsTab(self.page)

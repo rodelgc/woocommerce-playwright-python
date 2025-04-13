@@ -11,12 +11,14 @@ class AttributesTab:
         """Fill the form to add a new attribute and save it."""
 
         # Locators
-        attribute_name_input = self.attributes_tab.get_by_role(
-            "row", name="Name: Value(s):"
-        ).get_by_placeholder("e.g. length or weight")
+        attribute_name_input = (
+            self.attributes_tab.get_by_role("row", name="Name: Value(s):")
+            .get_by_placeholder("e.g. length or weight")
+            .last
+        )
         attribute_values_input = self.attributes_tab.get_by_role(
             "textbox", name="Enter options for customers"
-        )
+        ).last
         used_for_variations_checkbox = self.attributes_tab.get_by_role(
             "checkbox", name="Used for variations"
         ).last
