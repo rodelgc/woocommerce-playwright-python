@@ -48,7 +48,7 @@ def test_can_add_new_product__variable(
     add_new_product_page = AddNewProductPage(merchant_page)
     product_data_section = add_new_product_page.product_data
 
-    def add_new_product():
+    def add_new_variable_product():
         add_new_product_page.goto()
         add_new_product_page.fill_product_name(product_variable["title"])
         product_data_section.select_product_type_variable()
@@ -73,6 +73,6 @@ def test_can_add_new_product__variable(
             len(product_variable["variations"])
         )
 
-    add_new_product()
+    add_new_variable_product()
     add_attributes()
     generate_variations()
