@@ -35,7 +35,7 @@ def set_up_merchant_storage_state(browser: Browser, base_url: str) -> StorageSta
         sources=True,
     )
     page = context.new_page()
-    page.goto("wp-admin")
+    page.goto("wp-admin", wait_until="networkidle")
     expect(page).to_have_title(re.compile("^Log In"))
     page.get_by_label("Username or Email Address").fill(WORDPRESS_USERNAME)
     page.get_by_label("Password", exact=True).fill(WORDPRESS_PASSWORD)
