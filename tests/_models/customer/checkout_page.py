@@ -17,10 +17,10 @@ class CheckoutPage:
         country = self.page.get_by_label("Country/Region")
         first_name = self.page.get_by_role("textbox", name="First name")
         last_name = self.page.get_by_role("textbox", name="Last name")
-        address_line_1 = self.page.get_by_role("textbox", name="Address line 1")
+        address_line_1 = self.page.get_by_role("textbox", name="Address", exact=True)
         city = self.page.get_by_role("textbox", name="City")
-        state = self.page.get_by_label("State / County")
-        postcode = self.page.get_by_role("textbox", name="Postcode / ZIP")
+        state = self.page.get_by_label("State")
+        postcode = self.page.get_by_role("textbox", name="ZIP Code")
         phone = self.page.get_by_role("textbox", name="Phone (optional)")
 
         # Actions
@@ -30,6 +30,6 @@ class CheckoutPage:
         last_name.fill(customer["billing"]["last_name"])
         address_line_1.fill(customer["billing"]["address_1"])
         city.fill(customer["billing"]["city"])
-        state.select_option(label=customer["billing"]["state"])
+        state.select_option(value=customer["billing"]["state"])
         postcode.fill(customer["billing"]["postcode"])
         phone.fill(customer["billing"]["phone"])
