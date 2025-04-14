@@ -23,6 +23,15 @@ test = [
 addopts = "--browser chromium --base-url http://localhost:8080"
 testpaths = ["tests"]
 
+[tool.pylint]
+disable = [
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "redefined-outer-name",
+    "too-few-public-methods",
+]
+
 [tool.pdm]
 distribution = false
 
