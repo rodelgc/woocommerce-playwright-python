@@ -140,6 +140,9 @@ def customer_page(
         snapshots=True,
         sources=True,
     )
+
+    # Clear cookies to avoid session conflicts on customer-facing pages.
+    customer_context.clear_cookies()
     page = customer_context.new_page()
 
     yield page
