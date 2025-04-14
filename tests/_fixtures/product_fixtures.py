@@ -35,8 +35,9 @@ def cleanup_product(product_id: int | None, request_context: APIRequestContext):
 
 
 @pytest.fixture(scope="function")
-def product_simple(request_context: APIRequestContext):
+def product_data_simple(request_context: APIRequestContext):
     """Fixture to create a simple product for testing."""
+    # Todo use product data properties from rest api
     title = "Pride and Prejudice"
     price = random_price()
     sku = random_sku()
@@ -57,8 +58,9 @@ def product_simple(request_context: APIRequestContext):
 
 
 @pytest.fixture(scope="function")
-def product_variable(request_context: APIRequestContext):
+def product_data_variable(request_context: APIRequestContext):
     """Fixture to create a variable product for testing."""
+    # Todo use product data properties from rest api
     title = "The Chronicles of Narnia"
     attributes = [
         {
@@ -82,6 +84,29 @@ def product_variable(request_context: APIRequestContext):
         "attributes": attributes,
         "variations": variations,
     }
+
+    yield product
+
+    cleanup_product(product["id"], request_context)
+
+
+@pytest.fixture(scope="function")
+def product(request_context: APIRequestContext):
+    data = {
+        "name": "The God of the Woods",
+        "regular_price": "29.98",
+        "type": "simple",
+    }
+
+    response = request_context.post(
+        "wp-json/wc/v3/products",
+        data=data,
+    )
+    assert response.ok
+    product = response.json()
+    assert product["name"] == data["name"]
+    assert product["regular_price"] == data["regular_price"]
+    assert product["type"] == data["type"]
 
     yield product
 
