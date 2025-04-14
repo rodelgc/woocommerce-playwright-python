@@ -72,11 +72,7 @@ def test_can_add_new_product__variable(
                 attribute_values=a_values,
                 nth=nth,
             )
-            expect(
-                attributes_tab.get_saved_attribute_heading(
-                    attribute_name=attribute["name"]
-                )
-            ).to_be_visible()
+            expect(attributes_tab.get_saved_attribute_heading(a_name)).to_be_visible()
 
     def generate_variations():
         variations_tab = product_data_section.goto_variations_tab()
