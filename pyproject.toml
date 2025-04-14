@@ -36,7 +36,7 @@ disable = [
 distribution = false
 
 [tool.pdm.scripts]
-start = "bash -c 'docker-compose up -d && bash ./store-setup.sh && playwright install chromium'"
+start = "bash -c 'docker compose up -d && bash ./store-setup.sh && playwright install chromium'"
 stop = "docker-compose down --volumes"
 restart = { composite = ["stop", "start"] }
 test = "pytest -v"
