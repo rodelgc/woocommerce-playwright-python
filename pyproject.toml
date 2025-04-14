@@ -21,7 +21,7 @@ test = [
 
 [tool.pytest.ini_options]
 addopts = "--browser chromium --base-url http://localhost:8080"
-# testpaths = ["tests"]
+testpaths = ["tests"]
 
 [tool.pdm]
 distribution = false
