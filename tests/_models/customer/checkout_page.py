@@ -39,5 +39,8 @@ class CheckoutPage:
 
     def place_order(self) -> OrderConfirmationPage:
         place_order_button = self.page.get_by_role("button", name="Place Order")
-        place_order_button.click()
+
+        # Press a bit longer than usual to make sure the button is clicked.
+        # Workaround for flakiness caused by clicking too quickly.
+        place_order_button.click(delay=500)
         return OrderConfirmationPage(self.page)
