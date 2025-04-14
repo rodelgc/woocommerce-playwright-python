@@ -1,7 +1,8 @@
-from dotenv import load_dotenv
-import pytest
 import os
 
+import pytest
+
+from dotenv import load_dotenv
 from playwright.sync_api import APIRequestContext
 
 # Load environment variables
@@ -36,7 +37,6 @@ def customer(request_context: APIRequestContext):
             "role": "all",
         },
     )
-    print(f"Response list customers:\n{response_list_customers.json()}")
     assert response_list_customers.ok
     customer_matches = response_list_customers.json()
     assert (
