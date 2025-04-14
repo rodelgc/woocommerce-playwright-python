@@ -16,6 +16,7 @@ from tests._fixtures.cleanup_fixtures import (
 from tests._fixtures.customer_fixtures import (
     customer,
 )
+from tests._fixtures.order_fixtures import order_data
 from tests._fixtures.store_settings_fixtures import (
     reset_merchant_settings,
 )

@@ -44,7 +44,7 @@ class CheckoutPage:
         cod_checkbox.check()
         expect(cod_description).to_be_visible()
 
-    def place_order(self)->OrderConfirmationPage:
+    def place_order(self) -> OrderConfirmationPage:
         place_order_button = self.page.get_by_role("button", name="Place Order")
         place_order_button.click()
         return OrderConfirmationPage(self.page)

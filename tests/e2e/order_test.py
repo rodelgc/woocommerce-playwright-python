@@ -8,6 +8,7 @@ from tests._models.customer.product_page import ProductPage
 
 def test_customer_can_add_product_to_cart(
     customer_page: Page,
+    order_data: Dict[str, any],
     product: Dict[str, any],
     customer: Dict[str, any],
 ) -> None:
@@ -58,9 +59,7 @@ def test_customer_can_add_product_to_cart(
         order_confirmation_page.has_expected_cod_payment_method()
         order_confirmation_page.has_expected_product_link(product["name"])
         order_confirmation_page.has_expected_customer_billing_details(customer)
-        order_id = (
-            order_confirmation_page.get_order_number()
-        )  # todo do something with order id
+        order_data["id"] = order_confirmation_page.get_order_number()
 
     cart_page = goto_product_page_and_add_to_cart()
     check_cart_details(cart_page)
