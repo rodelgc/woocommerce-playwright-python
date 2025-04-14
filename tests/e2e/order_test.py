@@ -46,7 +46,6 @@ def test_customer_can_add_product_to_cart(
     ) -> OrderConfirmationPage:
         checkout_page = cart_page.proceed_to_checkout()
         checkout_page.fill_billing_form(customer)
-        checkout_page.select_payment_method_cod()
         order_confirmation_page = checkout_page.place_order()
         return order_confirmation_page
 

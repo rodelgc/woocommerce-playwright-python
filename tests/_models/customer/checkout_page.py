@@ -37,13 +37,6 @@ class CheckoutPage:
         postcode.fill(customer["billing"]["postcode"])
         phone.fill(customer["billing"]["phone"])
 
-    def select_payment_method_cod(self) -> None:
-        cod_checkbox = self.page.get_by_role("radio", name="Cash on delivery")
-        cod_description = self.page.get_by_text("Pay with cash upon delivery.")
-
-        cod_checkbox.check()
-        expect(cod_description).to_be_visible()
-
     def place_order(self) -> OrderConfirmationPage:
         place_order_button = self.page.get_by_role("button", name="Place Order")
         place_order_button.click()
