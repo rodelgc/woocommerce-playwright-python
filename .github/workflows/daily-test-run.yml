@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 22 * * *"
+env:
+  FORCE_COLOR: "1"
 
 jobs:
   run-tests:
