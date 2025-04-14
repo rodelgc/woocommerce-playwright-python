@@ -13,7 +13,7 @@ class AddNewProductPage:
 
     def __init__(self, page: Page):
         self.page = page
-        self.product_data = ProductData(page)
+        self.product_data_section = ProductData(page)
 
     def goto(self) -> None:
         path = "wp-admin/post-new.php?post_type=product"
@@ -34,6 +34,7 @@ class AddNewProductPage:
         expect(publish_success_message).to_be_visible()
 
     def extract_product_id_from_url(self) -> str:
+        expect(self.page).to_have_url(re.compile(r"^.*post=\d+"))
         params = parse_qs(urlparse(self.page.url).query)
         product_id = params.get("post", [None])[0]
         return product_id

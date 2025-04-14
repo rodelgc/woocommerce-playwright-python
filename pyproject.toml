@@ -21,7 +21,16 @@ test = [
 
 [tool.pytest.ini_options]
 addopts = "--browser chromium --base-url http://localhost:8080"
-# testpaths = ["tests"]
+testpaths = ["tests"]
+
+[tool.pylint]
+disable = [
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "redefined-outer-name",
+    "too-few-public-methods",
+]
 
 [tool.pdm]
 distribution = false
@@ -35,6 +44,6 @@ test-headed = "pytest -v --headed"
 debug = "env PWDEBUG=1 pytest"
 trace = "playwright show-trace"
 codegen = "playwright codegen http://localhost:8080"
-lint = "pylint tests"
+lint = "pylint tests/"
 format = "black ."
 pre-commit = "pre-commit run --all-files"
