@@ -37,7 +37,6 @@ def cleanup_product(product_id: int | None, request_context: APIRequestContext):
 @pytest.fixture(scope="function")
 def product_data_simple(request_context: APIRequestContext):
     """Fixture to create a simple product for testing."""
-    # Todo use product data properties from rest api
     title = "Pride and Prejudice"
     price = random_price()
     sku = random_sku()
@@ -60,7 +59,6 @@ def product_data_simple(request_context: APIRequestContext):
 @pytest.fixture(scope="function")
 def product_data_variable(request_context: APIRequestContext):
     """Fixture to create a variable product for testing."""
-    # Todo use product data properties from rest api
     title = "The Chronicles of Narnia"
     attributes = [
         {
