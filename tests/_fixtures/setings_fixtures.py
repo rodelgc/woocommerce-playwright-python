@@ -2,10 +2,10 @@ import pytest
 from playwright.sync_api import APIRequestContext
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def settings_payment(request_context: APIRequestContext):
     """
-    Enable BACS payment gateway.
+    Enable COD payment gateway.
     """
     path = "wp-json/wc/v3/payment_gateways/cod"
     data = {"enabled": True}
