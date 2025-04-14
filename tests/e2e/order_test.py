@@ -2,6 +2,7 @@ from typing import Dict
 from playwright.sync_api import Page
 
 from tests._models.customer.cart_page import CartPage
+from tests._models.customer.order_confirmation_page import OrderConfirmationPage
 from tests._models.customer.product_page import ProductPage
 
 
@@ -39,10 +40,29 @@ def test_customer_can_add_product_to_cart(
         cart_item.shows_remove_item_button()
         cart_item.has_expected_total(expected_item_total)
 
-    def checkout_order(cart_page: CartPage) -> None:
+    def proceed_to_checkout_and_place_order(
+        cart_page: CartPage,
+    ) -> OrderConfirmationPage:
         checkout_page = cart_page.proceed_to_checkout()
         checkout_page.fill_billing_form(customer)
+        checkout_page.select_payment_method_cod()
+        order_confirmation_page = checkout_page.place_order()
+        return order_confirmation_page
+
+    def check_details_in_order_confirmation_page(
+        order_confirmation_page: OrderConfirmationPage,
+    ) -> None:
+        billing_details = customer["billing"]
+        order_confirmation_page.has_expected_total(expected_item_total)
+        order_confirmation_page.has_expected_email(billing_details["email"])
+        order_confirmation_page.has_expected_cod_payment_method()
+        order_confirmation_page.has_expected_product_link(product["name"])
+        order_confirmation_page.has_expected_customer_billing_details(customer)
+        order_id = (
+            order_confirmation_page.get_order_number()
+        )  # todo do something with order id
 
     cart_page = goto_product_page_and_add_to_cart()
     check_cart_details(cart_page)
-    checkout_order(cart_page)
+    order_confirmation_page = proceed_to_checkout_and_place_order(cart_page)
+    check_details_in_order_confirmation_page(order_confirmation_page)

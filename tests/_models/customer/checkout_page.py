@@ -2,12 +2,15 @@ import re
 from typing import Dict
 from playwright.sync_api import Page, expect
 
+from tests._models.customer.order_confirmation_page import OrderConfirmationPage
+
 
 class CheckoutPage:
 
     def __init__(self, page: Page):
         self.page = page
 
+        # Make sure Checkout page is loaded before proceeding.
         expect(self.page).to_have_url(re.compile(r".*/checkout"))
         expect(self.page).to_have_title(re.compile(r"^Checkout"))
 
@@ -33,3 +36,15 @@ class CheckoutPage:
         state.select_option(value=customer["billing"]["state"])
         postcode.fill(customer["billing"]["postcode"])
         phone.fill(customer["billing"]["phone"])
+
+    def select_payment_method_cod(self) -> None:
+        cod_checkbox = self.page.get_by_role("radio", name="Cash on delivery")
+        cod_description = self.page.get_by_text("Pay with cash upon delivery.")
+
+        cod_checkbox.check()
+        expect(cod_description).to_be_visible()
+
+    def place_order(self)->OrderConfirmationPage:
+        place_order_button = self.page.get_by_role("button", name="Place Order")
+        place_order_button.click()
+        return OrderConfirmationPage(self.page)
