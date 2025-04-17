@@ -1,6 +1,6 @@
 # WooCommerce E2E & API Test Automation with Python Playwright
 
-This is a portfolio project featuring an end-to-end and API test suite built with the Python implementation of Playwright.
+This is a portfolio project featuring a few end-to-end and REST API tests built with the Python implementation of Playwright.
 
 The local development environment uses a WooCommerce online store powered by the `bitnami/wordpress` Docker image.
 
