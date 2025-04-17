@@ -11,4 +11,4 @@ repos:
         name: Lint and Format
         entry: bash -c "pdm run format && pdm run lint"
         language: system
-        stages: [commit, push]
+        stages: [pre-commit, pre-push]
