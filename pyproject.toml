@@ -30,6 +30,8 @@ disable = [
     "missing-function-docstring",
     "redefined-outer-name",
     "too-few-public-methods",
+    "too-many-locals",
+    "fixme",
 ]
 
 [tool.pdm]
