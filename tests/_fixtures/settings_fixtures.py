@@ -31,6 +31,17 @@ def reset_payment_cod(request_context: APIRequestContext) -> None:
     enable_cod_only(ids)
 
 
+def enable_my_account_registration(request_context: APIRequestContext) -> None:
+    path = "wp-json/wc/v3/settings/account/woocommerce_enable_myaccount_registration"
+    data = {"value": "yes"}
+
+    response = request_context.put(path, data=data)
+
+    assert response.ok
+    assert response.json()["value"] == "yes"
+
+
 @pytest.fixture(scope="session", autouse=True)
 def reset_settings(request_context: APIRequestContext):
     reset_payment_cod(request_context)
+    enable_my_account_registration(request_context)
