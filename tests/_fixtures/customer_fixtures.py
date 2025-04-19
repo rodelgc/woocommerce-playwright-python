@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import pytest
@@ -8,6 +9,32 @@ from playwright.sync_api import APIRequestContext
 # Load environment variables
 load_dotenv("local.env")
 WORDPRESS_CUSTOMER_EMAIL = os.getenv("WORDPRESS_CUSTOMER_EMAIL")
+
+
+def clean_up_customer_by_email(email: str, request_context: APIRequestContext) -> None:
+    path = "wp-json/wc/v3/customers"
+
+    def get_customer_id() -> int:
+        data = {"_fields": ["id", "email"], "email": email}
+
+        response = request_context.get(path, data=data)
+        matches = response.json()
+
+        assert response.ok
+        assert len(matches) == 1
+        assert matches[0]["email"] == email
+
+        return matches[0]["id"]
+
+    def delete_customer(customer_id: int) -> None:
+        path = f"wp-json/wc/v3/customers/{customer_id}"
+        data = {"force": True}
+
+        response = request_context.delete(path, data=data)
+        assert response.ok
+
+    customer_id = get_customer_id()
+    delete_customer(customer_id)
 
 
 @pytest.fixture(scope="session")
@@ -55,3 +82,22 @@ def customer(request_context: APIRequestContext):
     customer = response_update_customer.json()
 
     yield customer
+
+
+@pytest.fixture(scope="function")
+def customer_registration_data(request_context: APIRequestContext):
+    now = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    username = f"ccuomo{now}"
+    email = f"{username}@example.com"
+
+    customer_data = {
+        "username": username,
+        "email": email,
+        "first_name": "Cullen",
+        "last_name": "Cuomo",
+        "password": "P@s$w0rDN3wCu5tomer!",
+    }
+
+    yield customer_data
+
+    clean_up_customer_by_email(email, request_context)

@@ -59,9 +59,7 @@ def set_up_customer_storage_state(browser: Browser, base_url: str) -> StorageSta
     page = context.new_page()
     page.goto("my-account")
     page.get_by_label("Username or email address").fill(WORDPRESS_CUSTOMER_USERNAME)
-    page.get_by_role("textbox", name="Password Required").fill(
-        WORDPRESS_CUSTOMER_PASSWORD
-    )
+    page.locator("#password").fill(WORDPRESS_CUSTOMER_PASSWORD)
     page.get_by_role("button", name="Log in").click()
     expect(page.get_by_role("heading", name="My account")).to_be_visible()
     expect(page.get_by_text(f"Hello {WORDPRESS_CUSTOMER_USERNAME}")).to_be_visible()

@@ -9,13 +9,11 @@ from tests._fixtures.auth_fixtures import (
 from tests._fixtures.request_fixtures import (
     request_context,
 )
-from tests._fixtures.setings_fixtures import settings_payment
+from tests._fixtures.settings_fixtures import reset_settings
 from tests._fixtures.cleanup_fixtures import (
     cleanup_store,
 )
-from tests._fixtures.customer_fixtures import (
-    customer,
-)
+from tests._fixtures.customer_fixtures import customer, customer_registration_data
 from tests._fixtures.order_fixtures import order_data
 from tests._fixtures.store_settings_fixtures import (
     reset_merchant_settings,
