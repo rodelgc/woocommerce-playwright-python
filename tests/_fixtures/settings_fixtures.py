@@ -32,13 +32,30 @@ def reset_payment_cod(request_context: APIRequestContext) -> None:
 
 
 def enable_my_account_registration(request_context: APIRequestContext) -> None:
-    path = "wp-json/wc/v3/settings/account/woocommerce_enable_myaccount_registration"
-    data = {"value": "yes"}
+    def enable_registration() -> None:
+        path = (
+            "wp-json/wc/v3/settings/account/woocommerce_enable_myaccount_registration"
+        )
+        data = {"value": "yes"}
 
-    response = request_context.put(path, data=data)
+        response = request_context.put(path, data=data)
 
-    assert response.ok
-    assert response.json()["value"] == "yes"
+        assert response.ok
+        assert response.json()["value"] == "yes"
+
+    def disable_password_setup_link() -> None:
+        path = (
+            "wp-json/wc/v3/settings/account/woocommerce_registration_generate_password"
+        )
+        data = {"value": "no"}
+
+        response = request_context.put(path, data=data)
+
+        assert response.ok
+        assert response.json()["value"] == "no"
+
+    enable_registration()
+    disable_password_setup_link()
 
 
 @pytest.fixture(scope="session", autouse=True)

@@ -1,77 +1,40 @@
-from playwright.sync_api import Page, expect
+from typing import Dict
+from playwright.sync_api import Page
+
+from tests._models.customer.my_account_dashboard_page import MyAccountDashboardPage
+from tests._models.customer.my_account_details_page import MyAccountDetailsPage
+from tests._models.customer.my_account_login_page import MyAccountLoginPage
 
 
-def test_guest_can_register(page: Page):
-    page.goto("my-account")
-
-    # ---------------------------------
-    # Registration form.
-    # ---------------------------------
-    # -- Customer data
-    customer_registration_data = {
-        "first_name": "Cullen",
-        "last_name": "Cuomo",
-        "email": "new_customer_random@example.com",
-        "password": "@awsdfIllo.*fasdfsaf",
-    }
-
-    # -- Locators
-    email_input = page.get_by_role(
-        "textbox", name="Email address  Required", exact=True
-    )
-    password_input = page.locator("#reg_password")
-    register_button = page.get_by_role("button", name="Register")
-
-    # -- Actions
-    email_input.fill(customer_registration_data["email"])
-    password_input.fill(customer_registration_data["password"])
-    register_button.click()
-
-    # ---------------------------------
-    # My account dashboard page
-    # ---------------------------------
+def test_guest_can_register(page: Page, customer_registration_data: Dict[str, any]):
     # Customer data
-    new_customer_username = customer_registration_data["email"].split("@", maxsplit=1)[
-        0
-    ]
+    customer_username = customer_registration_data["username"]
+    customer_email = customer_registration_data["email"]
+    customer_first_name = customer_registration_data["first_name"]
+    customer_last_name = customer_registration_data["last_name"]
+    customer_password = customer_registration_data["password"]
 
-    # Locators
-    greeting = page.get_by_text("Hello")
-    heading = page.get_by_role("heading", name="My account")
-    log_out_link = page.get_by_label("Account pages").get_by_role(
-        "link", name="Log out"
-    )
+    def goto_my_account_page_and_register() -> MyAccountDashboardPage:
+        page.goto("my-account")
+        my_account_login_page = MyAccountLoginPage(page)
+        my_dashboard_page = my_account_login_page.register(
+            customer_email, customer_password
+        )
 
-    # Actions
-    expect(heading).to_be_visible()
-    expect(greeting).to_contain_text(new_customer_username)
-    expect(log_out_link).to_be_visible()
+        return my_dashboard_page
 
-    # ---------------------------------
-    # My Account > Account details page
-    # ---------------------------------
-    # Locators
-    account_details_link = page.get_by_role("link", name="Account details", exact=True)
-    heading_account_details = page.get_by_role("heading", name="Account details")
-    display_name_textbox = page.get_by_role("textbox", name="Display name")
-    email_address_textbox = page.get_by_role("textbox", name="Email address")
-    first_name_textbox = page.get_by_role("textbox", name="First name")
-    last_name_textbox = page.get_by_role("textbox", name="Last name")
-    save_changes_button = page.get_by_role("button", name="Save changes")
+    def verify_dashboard_page_details(dashboard_page: MyAccountDashboardPage) -> None:
+        dashboard_page.expect_greeting_to_contain(customer_username)
 
-    # Actions
-    account_details_link.click()
-    expect(heading_account_details).to_be_visible()
-    expect(display_name_textbox).to_have_value(new_customer_username)
-    expect(email_address_textbox).to_have_value(customer_registration_data["email"])
-    success_message = page.get_by_text("Account details changed")
+    def goto_account_details_page_and_update_first_last_names():
+        page.goto("my-account/edit-account")
+        my_details_page = MyAccountDetailsPage(page)
+        my_details_page.expect_display_name_textbox_to_have_value(customer_username)
+        my_details_page.expect_email_address_textbox_to_have_value(customer_email)
+        my_details_page.update_details(
+            {"first_name": customer_first_name, "last_name": customer_last_name}
+        )
 
-    first_name_textbox.fill(customer_registration_data["first_name"])
-    last_name_textbox.fill(customer_registration_data["last_name"])
-    save_changes_button.click()
-    expect(success_message).to_be_visible()
-
-    # ---------------------------------
-    # Cleanup customer
-    # ---------------------------------
-    # todo
+    dashboard_page = goto_my_account_page_and_register()
+    verify_dashboard_page_details(dashboard_page)
+    goto_account_details_page_and_update_first_last_names()
