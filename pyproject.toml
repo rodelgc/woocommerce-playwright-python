@@ -38,9 +38,9 @@ disable = [
 distribution = false
 
 [tool.pdm.scripts]
-start = "bash -c 'docker compose up -d && bash ./store-setup.sh && playwright install chromium'"
-stop = "docker compose down --volumes"
-restart = { composite = ["stop", "start"] }
+env_start = "bash -c 'docker compose up -d && bash ./store-setup.sh && playwright install chromium'"
+env_stop = "docker compose down --volumes"
+env_restart = { composite = ["env_stop", "env_start"] }
 test = "pytest -v"
 test-headed = "pytest -v --headed"
 debug = "env PWDEBUG=1 pytest"
