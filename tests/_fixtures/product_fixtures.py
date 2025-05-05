@@ -57,38 +57,6 @@ def product_data_simple(request_context: APIRequestContext):
 
 
 @pytest.fixture(scope="function")
-def product_data_variable(request_context: APIRequestContext):
-    """Fixture to create a variable product for testing."""
-    title = "The Chronicles of Narnia"
-    attributes = [
-        {
-            "name": "Format",
-            "values": "Hardcover | Paperback",
-        },
-        {
-            "name": "Language",
-            "values": "English | Spanish",
-        },
-    ]
-    variations = [
-        ["Hardcover", "English"],
-        ["Hardcover", "Spanish"],
-        ["Paperback", "English"],
-        ["Paperback", "Spanish"],
-    ]
-    product = {
-        "title": title,
-        "id": None,
-        "attributes": attributes,
-        "variations": variations,
-    }
-
-    yield product
-
-    cleanup_product(product["id"], request_context)
-
-
-@pytest.fixture(scope="function")
 def product(request_context: APIRequestContext):
     data = {
         "name": "The God of the Woods",

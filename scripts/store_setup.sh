@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 source ./local.env
 
@@ -34,7 +34,7 @@ skip_onboarding() {
 }
 
 create_customer() {
-    echo "Creating customer..."
+    echo "Creating customer fixture..."
     docker compose exec wordpress bash -c "wp user create $WORDPRESS_CUSTOMER_USERNAME $WORDPRESS_CUSTOMER_EMAIL --role=customer --user_pass=$WORDPRESS_CUSTOMER_PASSWORD"
 }
 
