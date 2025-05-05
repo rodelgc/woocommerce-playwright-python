@@ -20,6 +20,5 @@ from tests._fixtures.store_settings_fixtures import (
 )
 from tests._fixtures.product_fixtures import (
     product_data_simple,
-    product_data_variable,
     product,
 )
