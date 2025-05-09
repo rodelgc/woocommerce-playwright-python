@@ -26,7 +26,7 @@ jobs:
         run: pdm install
 
       - name: Start local site
-        run: pdm start
+        run: pdm run env_start
 
       - name: Run tests
         run: pdm run test
